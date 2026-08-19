@@ -96,16 +96,16 @@ export const LearningView: React.FC = () => {
   return (
     <div className="flex flex-col gap-6 text-left font-sans">
       {/* HEADER BAR */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#3A2720] pb-5">
         <div>
-          <span className="text-[10px] bg-violet-500/20 text-violet-300 border border-violet-500/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+          <span className="text-[10px] bg-orange-500/10 text-orange-400 border border-orange-500/30 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
             Interactive AI Tutor
           </span>
-          <h1 className="text-2xl font-extrabold tracking-tight text-white md:text-3xl mt-1 flex items-center gap-2">
-            {topicParam} <Sparkles className="h-6 w-6 text-violet-400 animate-pulse" />
+          <h1 className="text-2xl font-extrabold tracking-tight text-stone-50 md:text-3xl mt-1 flex items-center gap-2">
+            {topicParam} <Sparkles className="h-6 w-6 text-orange-400 animate-pulse" />
           </h1>
-          <p className="text-xs text-slate-300">
-            Module: <span className="font-semibold text-indigo-300">{moduleParam}</span>
+          <p className="text-xs text-stone-300">
+            Module: <span className="font-semibold text-orange-300">{moduleParam}</span>
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export const LearningView: React.FC = () => {
             variant="glass" 
             size="sm" 
             onClick={() => navigate('/roadmaps')}
-            className="text-xs border-slate-700 text-slate-300 hover:text-white"
+            className="text-xs border-[#3A2720] text-stone-300 hover:text-white"
           >
             ← Back to Roadmap
           </Button>
@@ -123,7 +123,7 @@ export const LearningView: React.FC = () => {
             size="sm" 
             onClick={fetchLearningData} 
             isLoading={isLoading}
-            className="text-xs bg-indigo-600 hover:bg-indigo-500"
+            className="text-xs bg-orange-500 hover:bg-orange-400 shadow-glow"
           >
             <RefreshCw className="h-3.5 w-3.5 mr-1" /> Reload Topic
           </Button>
@@ -131,7 +131,7 @@ export const LearningView: React.FC = () => {
       </div>
 
       {/* 6-STEP PROGRESS TRACKER BAR */}
-      <div className="grid grid-cols-6 gap-2 bg-slate-900/90 border border-slate-800 p-2 rounded-xl text-center text-xs">
+      <div className="grid grid-cols-6 gap-2 bg-[#18120F] border border-[#3A2720] p-2 rounded-xl text-center text-xs">
         {[
           { num: 1, label: '1. Explain' },
           { num: 2, label: '2. Teach' },
@@ -148,10 +148,10 @@ export const LearningView: React.FC = () => {
               onClick={() => setCurrentStep(step.num as any)}
               className={`py-2 px-1 rounded-lg font-extrabold transition-all cursor-pointer truncate ${
                 isActive
-                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-glow'
+                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-glow'
                   : isDone
-                  ? 'bg-slate-800 text-emerald-400 border border-emerald-500/30'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                  ? 'bg-[#211712] text-emerald-400 border border-emerald-500/30'
+                  : 'bg-[#0C0A09] text-stone-400 hover:text-stone-200'
               }`}
             >
               {isDone ? `✓ ${step.label.split('. ')[1]}` : step.label}
@@ -161,12 +161,12 @@ export const LearningView: React.FC = () => {
       </div>
 
       {isLoading ? (
-        <Card className="p-12 text-center bg-slate-900/90 border-slate-800 flex flex-col items-center gap-3">
-          <svg className="animate-spin h-8 w-8 text-violet-400" fill="none" viewBox="0 0 24 24">
+        <Card className="p-12 text-center bg-[#18120F] border-[#3A2720] flex flex-col items-center gap-3">
+          <svg className="animate-spin h-8 w-8 text-orange-400" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
-          <span className="text-sm font-semibold text-slate-300">AI Tutor is generating tailored lessons for {topicParam}...</span>
+          <span className="text-sm font-semibold text-stone-300">AI Tutor is generating tailored lessons for {topicParam}...</span>
         </Card>
       ) : (
         <div className="flex flex-col gap-6">

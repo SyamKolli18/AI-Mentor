@@ -73,10 +73,10 @@ export const LoginPage: React.FC = () => {
   return (
     <>
       <div className="flex flex-col gap-2 text-center md:text-left">
-        <h1 className="text-2xl font-extrabold tracking-tight text-white md:text-3xl">
+        <h1 className="text-2xl font-extrabold tracking-tight text-stone-50 md:text-3xl">
           Welcome Back
         </h1>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-stone-300">
           Sign in to resume tracking your career goals.
         </p>
       </div>
@@ -86,7 +86,7 @@ export const LoginPage: React.FC = () => {
           label="Email Address"
           placeholder="you@college.edu"
           type="email"
-          leftIcon={<Mail className="h-4 w-4" />}
+          leftIcon={<Mail className="h-4 w-4 text-stone-400" />}
           error={errors.email?.message}
           disabled={isLoading}
           {...register('email')}
@@ -94,12 +94,12 @@ export const LoginPage: React.FC = () => {
 
         <div>
           <div className="flex justify-between items-center mb-1">
-            <label className="text-xs font-semibold text-slate-300 tracking-wide uppercase select-none">
+            <label className="text-xs font-semibold text-stone-200 tracking-wide uppercase select-none">
               Password
             </label>
             <Link
               to="/forgot-password"
-              className="text-xs text-primary hover:text-accent font-semibold transition-colors"
+              className="text-xs text-orange-400 hover:text-orange-300 font-semibold transition-colors"
             >
               Forgot Password?
             </Link>
@@ -107,21 +107,21 @@ export const LoginPage: React.FC = () => {
           <Input
             placeholder="••••••••"
             type="password"
-            leftIcon={<Lock className="h-4 w-4" />}
+            leftIcon={<Lock className="h-4 w-4 text-stone-400" />}
             error={errors.password?.message}
             disabled={isLoading}
             {...register('password')}
           />
         </div>
 
-        <Button variant="primary" type="submit" isLoading={isLoading} className="w-full h-11 mt-2">
+        <Button variant="primary" type="submit" isLoading={isLoading} className="w-full h-11 mt-2 bg-orange-500 hover:bg-orange-400 text-white font-bold shadow-glow">
           Sign In
         </Button>
       </form>
 
-      <div className="text-center text-xs text-slate-400">
+      <div className="text-center text-xs text-stone-300">
         Don't have an account?{' '}
-        <Link to="/signup" className="text-primary hover:text-accent font-semibold transition-colors">
+        <Link to="/signup" className="text-orange-400 hover:text-orange-300 font-semibold transition-colors">
           Sign Up
         </Link>
       </div>

@@ -98,15 +98,15 @@ export const LandingPage: React.FC = () => {
       
       {/* 1. HERO SECTION */}
       <section className="relative max-w-7xl mx-auto px-6 flex flex-col items-center text-center gap-8 mt-6 md:mt-16">
-        <div className="absolute top-[-120px] left-[50%] -translate-x-[50%] h-[350px] w-[350px] md:w-[700px] bg-gradient-to-r from-violet-600/10 via-indigo-600/10 to-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-[-120px] left-[50%] -translate-x-[50%] h-[350px] w-[350px] md:w-[700px] bg-gradient-to-r from-orange-600/10 via-amber-600/10 to-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-slate-900/50 text-[10px] text-slate-300 font-bold uppercase tracking-widest mb-1 shadow-glass-inset"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#3A2720] bg-[#18120F] text-[10px] text-stone-300 font-bold uppercase tracking-widest mb-1 shadow-glass"
         >
-          <GraduationCap className="h-4 w-4 text-accent" />
+          <GraduationCap className="h-4 w-4 text-orange-400" />
           The Student Career Co-Pilot
         </motion.div>
 
@@ -114,19 +114,20 @@ export const LandingPage: React.FC = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1] max-w-5xl"
+          className="text-4xl md:text-7xl font-black tracking-tight text-stone-50 leading-[1.1] max-w-5xl uppercase"
         >
-          Your Personalized Career & <br />
-          <span className="text-gradient-purple">Learning Operating System</span>
+          Your Personalized <br />
+          Career & Learning <br />
+          <span className="text-gradient-orange">Mentor</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm md:text-lg text-slate-400 max-w-3xl leading-relaxed font-medium"
+          className="text-sm md:text-lg text-stone-300 max-w-3xl leading-relaxed font-medium"
         >
-          Map your skills, establish custom syllabus paths, execute real projects, and build absolute readiness for technical placement rounds.
+          AI Mentor helps students understand where they are, discover where they should go, and learn how to get there.
         </motion.p>
 
         <motion.div
@@ -140,7 +141,7 @@ export const LandingPage: React.FC = () => {
             size="lg"
             rightIcon={<ArrowRight className="h-4.5 w-4.5" />}
             onClick={() => navigate('/signup')}
-            className="shadow-premium"
+            className="bg-orange-500 hover:bg-orange-400 text-white font-bold shadow-glow"
           >
             Launch AI Mentor Free
           </Button>

@@ -150,26 +150,26 @@ export const AIProfileView: React.FC = () => {
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
                   <defs>
                     <radialGradient id="radarGlowProfile" cx="50%" cy="50%" r="60%">
-                      <stop offset="0%" stopColor="#6366F1" stopOpacity={0.65}/>
-                      <stop offset="100%" stopColor="#7C3AED" stopOpacity={0.15}/>
+                      <stop offset="0%" stopColor="#F97316" stopOpacity={0.65}/>
+                      <stop offset="100%" stopColor="#FBBF24" stopOpacity={0.15}/>
                     </radialGradient>
                   </defs>
-                  <PolarGrid stroke="rgba(255, 255, 255, 0.05)" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#D1D5DB', fontSize: 9, fontWeight: '600' }} />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#4b5563', fontSize: 8 }} />
-                  <Radar name="Student Score" dataKey="score" stroke="#6366F1" strokeWidth={2} fill="url(#radarGlowProfile)" fillOpacity={0.8} />
+                  <PolarGrid stroke="#3A2720" />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#D6D3D1', fontSize: 9, fontWeight: '600' }} />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#A8A29E', fontSize: 8 }} />
+                  <Radar name="Student Score" dataKey="score" stroke="#F97316" strokeWidth={2} fill="url(#radarGlowProfile)" fillOpacity={0.8} />
                 </RadarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
           {/* Right Column: Key Scores Cards with Explanations */}
-          <Card className="bg-card/10 flex flex-col gap-4">
+          <Card className="bg-[#18120F] border-[#3A2720] flex flex-col gap-4">
             <CardHeader className="pb-0">
-              <CardTitle className="text-lg font-bold flex items-center gap-2 text-white">
-                <Terminal className="h-5 w-5 text-accent" /> Skill Breakdown & Meaning
+              <CardTitle className="text-lg font-bold flex items-center gap-2 text-stone-50">
+                <Terminal className="h-5 w-5 text-orange-400" /> Skill Breakdown & Meaning
               </CardTitle>
-              <CardDescription className="text-xs text-slate-300">
+              <CardDescription className="text-xs text-stone-300">
                 Understand what each score represents and how to level up.
               </CardDescription>
             </CardHeader>

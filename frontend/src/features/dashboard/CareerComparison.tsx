@@ -134,41 +134,41 @@ export const CareerComparison: React.FC = () => {
                 <Card 
                   key={rec.pathId} 
                   hoverEffect 
-                  className={`flex flex-col justify-between items-start gap-6 bg-card/10 border ${
-                    isSelectedForCompare ? 'border-primary/50 bg-primary/5' : 'border-white/5'
+                  className={`flex flex-col justify-between items-start gap-6 bg-[#18120F] border ${
+                    isSelectedForCompare ? 'border-orange-500/50 bg-orange-500/10' : 'border-[#3A2720]'
                   }`}
                 >
                   <div className="w-full flex justify-between items-start">
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Recommendation</span>
-                      <h4 className="text-lg font-bold text-white mt-0.5">{rec.careerName}</h4>
+                      <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Recommendation</span>
+                      <h4 className="text-lg font-bold text-stone-50 mt-0.5">{rec.careerName}</h4>
                     </div>
                     {/* Match percentage node */}
-                    <div className="h-11 w-11 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center font-bold text-xs text-primary shadow-glow shadow-primary/10">
+                    <div className="h-11 w-11 rounded-full border border-orange-500/30 bg-orange-500/10 flex items-center justify-center font-bold text-xs text-orange-400 shadow-glow">
                       {rec.matchPercentage}%
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed text-left min-h-[50px]">
-                    <strong className="text-indigo-400 font-bold block mb-1">Why It Matches You:</strong>
+                  <p className="text-xs text-stone-300 leading-relaxed text-left min-h-[50px]">
+                    <strong className="text-orange-400 font-bold block mb-1">Why It Matches You:</strong>
                     {rec.whyMatches}
                   </p>
 
-                  <div className="flex flex-col gap-2.5 w-full text-left text-xs border-t border-white/5 pt-4">
+                  <div className="flex flex-col gap-2.5 w-full text-left text-xs border-t border-[#3A2720] pt-4">
                     <div className="flex justify-between">
-                      <span className="text-slate-400 font-medium">Difficulty Level:</span>
-                      <span className="text-white font-bold bg-slate-800 px-2 py-0.5 rounded">{rec.difficultyLevel}</span>
+                      <span className="text-stone-400 font-medium">Difficulty Level:</span>
+                      <span className="text-stone-100 font-bold bg-[#211712] border border-[#3A2720] px-2 py-0.5 rounded">{rec.difficultyLevel}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400 font-medium">Expected Learning Path:</span>
-                      <span className="text-white font-bold">{rec.estimatedLearningTime}</span>
+                      <span className="text-stone-400 font-medium">Expected Learning Path:</span>
+                      <span className="text-stone-100 font-bold">{rec.estimatedLearningTime}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400 font-medium">Industry Demand:</span>
-                      <span className="text-indigo-300 font-bold">{rec.averageIndustryDemand}</span>
+                      <span className="text-stone-400 font-medium">Industry Demand:</span>
+                      <span className="text-amber-400 font-bold">{rec.averageIndustryDemand}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400 font-medium">Salary Range:</span>
+                      <span className="text-stone-400 font-medium">Salary Range:</span>
                       <span className="text-emerald-400 font-extrabold flex items-center">
                         <DollarSign className="h-3 w-3" />
                         {(rec.expectedSalaryRange.min / 1000).toFixed(0)}k - {(rec.expectedSalaryRange.max / 1000).toFixed(0)}k / yr
@@ -176,7 +176,7 @@ export const CareerComparison: React.FC = () => {
                     </div>
 
                     {/* Strengths & Missing Skills Breakdown */}
-                    <div className="mt-2 flex flex-col gap-2 bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <div className="mt-2 flex flex-col gap-2 bg-[#0C0A09] p-3 rounded-lg border border-[#3A2720]">
                       <div>
                         <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">Current Strengths:</span>
                         <div className="flex flex-wrap gap-1">

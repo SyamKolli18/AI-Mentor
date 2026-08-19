@@ -14,13 +14,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full flex flex-col gap-1.5 text-left">
         {label && (
-          <label className="text-[10px] font-bold text-slate-200 tracking-wider uppercase select-none mb-0.5">
+          <label className="text-[10px] font-bold text-stone-200 tracking-wider uppercase select-none mb-0.5">
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3.5 text-slate-400 shrink-0 pointer-events-none">
+            <div className="absolute left-3.5 text-stone-400 shrink-0 pointer-events-none">
               {leftIcon}
             </div>
           )}
@@ -29,7 +29,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             disabled={disabled}
             className={cn(
-              "w-full h-11 bg-slate-950 border border-slate-800 text-white rounded-lg px-3.5 text-sm transition-all focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 placeholder:text-slate-400 shadow-glass-inset disabled:opacity-50 disabled:cursor-not-allowed hover:border-slate-700",
+              "w-full h-11 bg-[#18120F] border border-[#3A2720] text-stone-100 rounded-lg px-3.5 text-sm transition-all focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 placeholder:text-stone-400 shadow-glass-inset disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#4A3228]",
               leftIcon && "pl-10",
               rightIcon && "pr-10",
               error && "border-destructive focus:border-destructive focus:ring-destructive/20",
