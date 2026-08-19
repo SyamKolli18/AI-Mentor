@@ -409,23 +409,49 @@ export const RoadmapView: React.FC = () => {
                         >
                           <Edit3 className="h-3 w-3" /> Customize
                         </Button>
+                        {mod.status !== 'locked' && (
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => navigate(`/learning?topic=${encodeURIComponent(mod.topics?.[0]?.title || mod.title)}&module=${encodeURIComponent(mod.title)}`)}
+                            className="h-7 px-3 text-[11px] bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold shadow-glow"
+                          >
+                            <Sparkles className="h-3 w-3 mr-1" /> Study with AI
+                          </Button>
+                        )}
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-400 leading-relaxed">{mod.description}</p>
+                    <p className="text-xs text-slate-300 leading-relaxed">{mod.description}</p>
+
+                    {/* Phase D Fields: Why it matters, Prerequisites, Learning Objectives */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                      <div>
+                        <strong className="text-indigo-400 block mb-0.5">Why It Matters:</strong>
+                        <span className="text-slate-300">{mod.notes || 'Core foundational knowledge for your target career track.'}</span>
+                      </div>
+                      <div>
+                        <strong className="text-purple-400 block mb-0.5">Prerequisites:</strong>
+                        <span className="text-slate-300">{mod.prerequisites?.length > 0 ? mod.prerequisites.join(', ') : 'None (Entry level)'}</span>
+                      </div>
+                      <div>
+                        <strong className="text-emerald-400 block mb-0.5">Learning Outcome:</strong>
+                        <span className="text-slate-300">{mod.learningOutcome || 'Master core syntax and practical code execution.'}</span>
+                      </div>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300">
                       <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-slate-500" />
+                        <Clock className="h-4 w-4 text-indigo-400" />
                         <span>Pacing: {mod.estimatedCompletionTime}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Settings className="h-4 w-4 text-slate-500" />
+                        <Settings className="h-4 w-4 text-purple-400" />
                         <span>Difficulty: {mod.difficulty}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-slate-500" />
-                        <span>Unlock Condition: {mod.unlockCondition || 'Immediate'}</span>
+                        <BookOpen className="h-4 w-4 text-emerald-400" />
+                        <span>Status: <span className="font-bold text-white uppercase">{mod.status}</span></span>
                       </div>
                     </div>
 

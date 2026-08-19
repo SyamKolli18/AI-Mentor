@@ -2,6 +2,20 @@
 
 All notable changes to the AI Mentor application during the development of Phases 14, 15, 16, and 17 will be documented in this file.
 
+## [2.0.0-adaptive] - 2026-08-19
+
+### Added
+* **Phase A — Focused Navigation**: Streamlined primary student navigation to 8 core journey items (Dashboard, My Profile, Career, My Roadmap, Learning, AI Mentor, Progress, Settings).
+* **Phase B — Student Profile Analysis**: Added beginner explanations for all score cards ("What does this score mean?", "What should I do to improve it?"), strengths, weaknesses, gaps, and recommendations.
+* **Phase C — Career Recommendation**: Enhanced career predictions detailing match %, why it matches, current strengths, missing skills, next steps, difficulty, and expected learning path timeline.
+* **Phase D — Visual Roadmap**: Visual 3-stage module tree detailing topics, why it matters, prerequisites, estimated learning time, difficulty, learning outcomes, resources, practice/assessments, and direct AI tutor launchers.
+* **Phase E — AI Learning System**: Interactive 6-step study interface for every topic: **Explain → Teach → Practice → Evaluate → Feedback → Next Action**.
+* **Phase F — Google Gemini LLM Integration**: Dedicated `GeminiService` API integration using `AI_PROVIDER=gemini` and `GEMINI_API_KEY` with structured prompts, response validation, retries, timeouts, and fallback handling.
+* **Phase G — Adaptive Mentor Engine**: Adaptive learning loop evaluating quiz/assessment results, identifying weak/strong topics, recommending remediation, generating easier examples, and managing module unlocking.
+* **Phase H — High-Contrast Accessible UI**: Complete accessibility audit improving glass panel contrast (`bg-slate-900/90`), white primary text (`text-slate-50`), and high-contrast secondary text (`text-slate-300`).
+* **Phase I — Refresh Token Fix**: Implemented `/api/auth/refresh-token` endpoint, JWT refresh token rotation, `localStorage` synchronization, and logout invalidation.
+* **Phase J — Automated Vitest Test Suite**: Vitest suite (`businessLogic.test.ts`) covering profile scoring, career matching, skill-gap detection, roadmap progression, answer evaluation, adaptive decisions, and JWT refresh token utilities (100% pass rate).
+
 ---
 
 ## [1.2.0-stable] - 2026-07-07

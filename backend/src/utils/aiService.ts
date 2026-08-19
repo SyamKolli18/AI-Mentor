@@ -1,7 +1,41 @@
+import mongoose from 'mongoose';
 import { IUser, IAIProfile, ICareerRecommendation } from '../models/User';
 import { IRoadmapModule } from '../models/Roadmap';
 import { LearningResource } from '../models/LearningResource';
 import { env } from '../config/env';
+import { GeminiService } from './geminiService';
+
+export interface IAIExplainTeach {
+  conceptName: string;
+  simpleExplanation: string;
+  realWorldAnalogy: string;
+  codeExample?: string;
+  whyItMatters: string;
+  keyTakeaways: string[];
+}
+
+export interface IAIPracticeQuestions {
+  mcqs: Array<{ question: string; options: string[]; answerIndex: number; explanation: string }>;
+  conceptQuestions: Array<{ question: string; sampleAnswer: string }>;
+  codingQuestions: Array<{ prompt: string; starterCode: string; solution: string }>;
+}
+
+export interface IAIEvaluationResult {
+  score: number;
+  correctUnderstanding: string[];
+  misconceptions: string[];
+  missingConcepts: string[];
+  mistakes: string[];
+  feedbackText: string;
+}
+
+export interface IAdaptiveDecision {
+  status: 'Strong topic' | 'Weak topic' | 'Needs revision' | 'Ready for next module' | 'Needs prerequisite';
+  nextAction: 'Continue' | 'Revise' | 'Practice more' | 'Learn prerequisite' | 'Retry assessment';
+  recommendationReason: string;
+  easierExamples?: string[];
+  suggestedPrerequisites?: string[];
+}
 
 // Prompt Templates (Phase 4-6)
 export const PROMPT_TEMPLATES = {
@@ -999,8 +1033,29 @@ export class AIService {
   /**
    * Helper to query MongoDB and compile 10 resource categories for a topic
    */
+  private static getDefaultResources(categoryName: string, tags: string[]): any[] {
+    const types: Array<'documentation' | 'playlist' | 'course' | 'practice' | 'project' | 'challenge' | 'quiz' | 'book' | 'cheat-sheet' | 'interview-notes'> = [
+      'documentation', 'playlist', 'course', 'practice', 'project', 'challenge', 'quiz', 'book', 'cheat-sheet', 'interview-notes'
+    ];
+
+    return types.map(type => ({
+      title: `AI Curated ${type.replace('-', ' ')} for ${categoryName}`,
+      description: `A highly recommended ${type.replace('-', ' ')} resource to master ${tags.join(', ')} topics.`,
+      difficulty: 'Intermediate',
+      estimatedTime: 45,
+      externalUrl: this.getMockUrl(type, tags[0] || 'general'),
+      category: categoryName,
+      resourceType: type,
+      tags: tags
+    }));
+  }
+
   private static async getResourcesForCategory(categoryName: string, tags: string[]): Promise<any[]> {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return this.getDefaultResources(categoryName, tags);
+      }
+
       const dbRes = await LearningResource.find({
         $or: [
           { category: categoryName },
@@ -1044,6 +1099,211 @@ export class AIService {
       return finalResources;
     } catch (err) {
       return [];
+    }
+  }
+
+  /**
+   * Phase E: Explain & Teach topic tailored to student profile and module context
+   */
+  public static async explainAndTeachTopic(user: IUser, topicTitle: string, moduleTitle: string): Promise<IAIExplainTeach> {
+    console.log(`🤖 [AI SERVICE] Generating Explain & Teach for topic: ${topicTitle}`);
+    
+    if (GeminiService.isLLMConnected()) {
+      const prompt = `
+        Student Name: ${user.name}
+        Academic: ${user.onboarding?.academic?.degree || 'College'} student in ${user.onboarding?.academic?.branch || 'CS'}
+        Learning Style: ${user.onboarding?.preferences?.learningStyle || 'visual'}
+        Current Module: ${moduleTitle}
+        Target Topic: ${topicTitle}
+
+        Provide a structured tutorial JSON matching keys: conceptName, simpleExplanation, realWorldAnalogy, codeExample, whyItMatters, keyTakeaways.
+      `;
+      const llmResult = await GeminiService.generateJSON<IAIExplainTeach>(prompt, 'You are an elite computer science mentor teaching college students.');
+      if (llmResult && llmResult.simpleExplanation) {
+        return llmResult;
+      }
+    }
+
+    // Fallback response engine
+    return {
+      conceptName: topicTitle,
+      simpleExplanation: `${topicTitle} is a foundational building block in modern computing. It allows developers to solve complex problems by breaking them down into manageable, reusable logic units.`,
+      realWorldAnalogy: `Think of ${topicTitle} like a assembly pipeline in a factory: raw inputs flow into specialized stations (functions/methods), process step-by-step, and output a finished product.`,
+      codeExample: topicTitle.toLowerCase().includes('async') || topicTitle.toLowerCase().includes('promise')
+        ? `// Async execution example\nasync function fetchLearnerData(id) {\n  try {\n    const res = await fetch(\`/api/student/\${id}\`);\n    return await res.json();\n  } catch (err) {\n    console.error('Fetch error:', err);\n  }\n}`
+        : topicTitle.toLowerCase().includes('react') || topicTitle.toLowerCase().includes('state')
+        ? `// React Component State\nimport { useState } from 'react';\n\nexport function TopicCard({ name }) {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(c => c + 1)}>Learned {name}: {count}</button>;\n}`
+        : `// Core Algorithm Pattern\nfunction processTopicData(items) {\n  return items.filter(item => item.isValid).map(item => item.value * 2);\n}`,
+      whyItMatters: `Mastering ${topicTitle} is essential for writing production-ready code, passing technical interviews, and building scalable systems.`,
+      keyTakeaways: [
+        `Understand the core syntax and edge cases of ${topicTitle}.`,
+        `Practice writing clean, self-documenting code functions.`,
+        `Recognize performance implications in real-world applications.`
+      ]
+    };
+  }
+
+  /**
+   * Phase E: Generate MCQs, Concept questions, and Coding exercises for practice
+   */
+  public static async generatePracticeQuestions(user: IUser, topicTitle: string): Promise<IAIPracticeQuestions> {
+    console.log(`🤖 [AI SERVICE] Generating Practice Questions for: ${topicTitle}`);
+
+    if (GeminiService.isLLMConnected()) {
+      const prompt = `
+        Target Topic: ${topicTitle}
+        Student Degree: ${user.onboarding?.academic?.degree || 'College'}
+
+        Generate JSON matching keys: mcqs (array of {question, options, answerIndex, explanation}), conceptQuestions (array of {question, sampleAnswer}), codingQuestions (array of {prompt, starterCode, solution}).
+      `;
+      const llmResult = await GeminiService.generateJSON<IAIPracticeQuestions>(prompt, 'You are an expert technical interviewer and educator.');
+      if (llmResult && llmResult.mcqs && llmResult.mcqs.length > 0) {
+        return llmResult;
+      }
+    }
+
+    // Fallback Practice Engine
+    return {
+      mcqs: [
+        {
+          question: `What is the primary purpose of ${topicTitle}?`,
+          options: [
+            `To organize code and manage execution flow efficiently`,
+            `To slow down database queries`,
+            `To replace HTML styling rules`,
+            `None of the above`
+          ],
+          answerIndex: 0,
+          explanation: `${topicTitle} provides structured paradigms to streamline logic execution and state management.`
+        },
+        {
+          question: `Which of the following is a common best practice when implementing ${topicTitle}?`,
+          options: [
+            `Ignoring error exceptions and null bounds`,
+            `Handling asynchronous bounds and validating inputs`,
+            `Hardcoding static magic numbers everywhere`,
+            `Disabling type checks`
+          ],
+          answerIndex: 1,
+          explanation: `Always validate inputs and handle edge exceptions to prevent application crashes.`
+        }
+      ],
+      conceptQuestions: [
+        {
+          question: `Explain how ${topicTitle} operates under the hood and why developers choose it over legacy patterns.`,
+          sampleAnswer: `${topicTitle} abstracts low-level mechanics into clean function interfaces, reducing boilerplate code and improving code maintainability.`
+        }
+      ],
+      codingQuestions: [
+        {
+          prompt: `Write a clean JavaScript function demonstrating ${topicTitle}.`,
+          starterCode: `function executeChallenge(data) {\n  // Write your implementation for ${topicTitle} here\n  return null;\n}`,
+          solution: `function executeChallenge(data) {\n  if (!data) return [];\n  return data.filter(x => Boolean(x));\n}`
+        }
+      ]
+    };
+  }
+
+  /**
+   * Phase E: Evaluate student answer and identify misconceptions, missing concepts, mistakes, and feedback
+   */
+  public static async evaluateStudentAnswer(user: IUser, question: string, studentAnswer: string): Promise<IAIEvaluationResult> {
+    console.log(`🤖 [AI SERVICE] Evaluating Student Answer for: ${question}`);
+
+    if (GeminiService.isLLMConnected()) {
+      const prompt = `
+        Question: ${question}
+        Student Answer: ${studentAnswer}
+
+        Evaluate accuracy and return JSON matching keys: score (0-100), correctUnderstanding (array of strings), misconceptions (array of strings), missingConcepts (array of strings), mistakes (array of strings), feedbackText (string).
+      `;
+      const llmResult = await GeminiService.generateJSON<IAIEvaluationResult>(prompt, 'You are an empathetic, constructive technical teacher.');
+      if (llmResult && typeof llmResult.score === 'number') {
+        return llmResult;
+      }
+    }
+
+    // Fallback Evaluation Engine
+    const isDetailed = studentAnswer.length > 25;
+    const score = isDetailed ? 85 : 55;
+
+    return {
+      score,
+      correctUnderstanding: [
+        `Identified the core objective of the question.`,
+        `Recognized primary parameters needed for execution.`
+      ],
+      misconceptions: isDetailed ? [] : [
+        `Answer is brief; ensure you explain boundary checks and exception scenarios.`
+      ],
+      missingConcepts: isDetailed ? [] : [
+        `Consider mentioning error handling and time complexity trade-offs.`
+      ],
+      mistakes: [],
+      feedbackText: isDetailed
+        ? `Great work! Your answer demonstrates a strong grasp of the fundamentals and core execution steps.`
+        : `Good effort! Your response touches on the key concept, but expanding with specific examples and boundary conditions will help solidify your score.`
+    };
+  }
+
+  /**
+   * Phase G: Adaptive Mentor Engine decision making loop
+   */
+  public static async determineAdaptiveNextAction(
+    user: IUser,
+    topicTitle: string,
+    quizScore?: number,
+    totalQuestions?: number
+  ): Promise<IAdaptiveDecision> {
+    console.log(`🤖 [ADAPTIVE MENTOR ENGINE] Evaluating progress for topic: ${topicTitle}, score: ${quizScore}/${totalQuestions}`);
+
+    const ratio = totalQuestions && totalQuestions > 0 ? (quizScore || 0) / totalQuestions : 0.8;
+
+    if (GeminiService.isLLMConnected()) {
+      const prompt = `
+        Student Name: ${user.name}
+        Topic: ${topicTitle}
+        Score Ratio: ${ratio * 100}%
+        Weaknesses: ${user.onboarding?.careerGoals?.weaknesses?.join(', ') || 'None'}
+
+        Determine adaptive learning status and next action. Return JSON matching keys: status ('Strong topic'|'Weak topic'|'Needs revision'|'Ready for next module'|'Needs prerequisite'), nextAction ('Continue'|'Revise'|'Practice more'|'Learn prerequisite'|'Retry assessment'), recommendationReason, easierExamples (array), suggestedPrerequisites (array).
+      `;
+      const llmResult = await GeminiService.generateJSON<IAdaptiveDecision>(prompt, 'You are an adaptive learning AI mentor.');
+      if (llmResult && llmResult.status) {
+        return llmResult;
+      }
+    }
+
+    // Fallback Adaptive Logic
+    if (ratio >= 0.8) {
+      return {
+        status: 'Strong topic',
+        nextAction: 'Continue',
+        recommendationReason: `Excellent performance! You answered ${(ratio * 100).toFixed(0)}% correctly. You are ready to move on to the next module.`,
+        easierExamples: []
+      };
+    } else if (ratio >= 0.5) {
+      return {
+        status: 'Needs revision',
+        nextAction: 'Practice more',
+        recommendationReason: `Solid attempt with ${(ratio * 100).toFixed(0)}% score. Solving a few extra practice exercises will solidify your understanding.`,
+        easierExamples: [
+          `Try solving single-step coding challenges before tackling nested async loops.`
+        ]
+      };
+    } else {
+      return {
+        status: 'Weak topic',
+        nextAction: 'Revise',
+        recommendationReason: `You scored ${(ratio * 100).toFixed(0)}%. Weakness detected in ${topicTitle}. Let's review the core concepts and easier analogies before retrying the assessment.`,
+        easierExamples: [
+          `Review basic variable closures and event loops before retrying async promises.`,
+          `Study step-by-step code traces with console outputs.`
+        ],
+        suggestedPrerequisites: [
+          `Core JavaScript Scope & Functions`
+        ]
+      };
     }
   }
 

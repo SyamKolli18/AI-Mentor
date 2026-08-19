@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  Terminal, LayoutDashboard, UserCheck, LogOut, Menu, X, 
+  Terminal, LayoutDashboard, LogOut, Menu, X, 
   ChevronRight, Sparkles, BookOpen, Compass, Brain, Settings,
-  Folder, Code, MessageSquare,
-  Award, Calendar, LineChart,
-  Bot, Users
+  LineChart, Bot, GraduationCap
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
@@ -42,20 +40,14 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   }
 
   const navigation = [
-    { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Onboarding Status', href: '/onboarding', icon: UserCheck },
-    { name: 'AI Profile', href: '/profile-analysis', icon: Brain, disabled: !user.isOnboarded },
-    { name: 'Career Path', href: '/career', icon: Compass, disabled: !user.isOnboarded },
-    { name: 'Roadmaps', href: '/roadmaps', icon: BookOpen, disabled: !user.isOnboarded },
-    { name: 'AI Projects', href: '/projects', icon: Folder, disabled: !user.isOnboarded },
-    { name: 'Code Review', href: '/code-review', icon: Code, disabled: !user.isOnboarded },
-    { name: 'Mock Interviews', href: '/interviews', icon: MessageSquare, disabled: !user.isOnboarded },
-    { name: 'Placement Readiness', href: '/readiness', icon: Award, disabled: !user.isOnboarded },
-    { name: 'Study Planner', href: '/planner', icon: Calendar, disabled: !user.isOnboarded },
-    { name: 'Coding Analytics', href: '/coding', icon: LineChart, disabled: !user.isOnboarded },
-    { name: 'AI Assistant', href: '/assistant', icon: Bot, disabled: !user.isOnboarded },
-    { name: 'Community', href: '/community', icon: Users, disabled: !user.isOnboarded },
-    { name: 'Admin Panel', href: '/admin', icon: Settings },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'My Profile', href: '/profile-analysis', icon: Brain, disabled: !user.isOnboarded },
+    { name: 'Career', href: '/career', icon: Compass, disabled: !user.isOnboarded },
+    { name: 'My Roadmap', href: '/roadmaps', icon: BookOpen, disabled: !user.isOnboarded },
+    { name: 'Learning', href: '/learning', icon: GraduationCap, disabled: !user.isOnboarded },
+    { name: 'AI Mentor', href: '/assistant', icon: Bot, disabled: !user.isOnboarded },
+    { name: 'Progress', href: '/progress', icon: LineChart, disabled: !user.isOnboarded },
+    { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (

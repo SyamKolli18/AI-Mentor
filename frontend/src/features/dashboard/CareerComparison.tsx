@@ -150,28 +150,54 @@ export const CareerComparison: React.FC = () => {
                   </div>
 
                   <p className="text-xs text-slate-300 leading-relaxed text-left min-h-[50px]">
+                    <strong className="text-indigo-400 font-bold block mb-1">Why It Matches You:</strong>
                     {rec.whyMatches}
                   </p>
 
                   <div className="flex flex-col gap-2.5 w-full text-left text-xs border-t border-white/5 pt-4">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Difficulty:</span>
-                      <span className="text-slate-300 font-medium">{rec.difficultyLevel}</span>
+                      <span className="text-slate-400 font-medium">Difficulty Level:</span>
+                      <span className="text-white font-bold bg-slate-800 px-2 py-0.5 rounded">{rec.difficultyLevel}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Est. Syllabus Time:</span>
-                      <span className="text-slate-300 font-medium">{rec.estimatedLearningTime}</span>
+                      <span className="text-slate-400 font-medium">Expected Learning Path:</span>
+                      <span className="text-white font-bold">{rec.estimatedLearningTime}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Market Demand:</span>
-                      <span className="text-slate-300 font-medium">{rec.averageIndustryDemand}</span>
+                      <span className="text-slate-400 font-medium">Industry Demand:</span>
+                      <span className="text-indigo-300 font-bold">{rec.averageIndustryDemand}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Salary Range:</span>
-                      <span className="text-emerald-400 font-medium flex items-center">
+                      <span className="text-slate-400 font-medium">Salary Range:</span>
+                      <span className="text-emerald-400 font-extrabold flex items-center">
                         <DollarSign className="h-3 w-3" />
                         {(rec.expectedSalaryRange.min / 1000).toFixed(0)}k - {(rec.expectedSalaryRange.max / 1000).toFixed(0)}k / yr
                       </span>
+                    </div>
+
+                    {/* Strengths & Missing Skills Breakdown */}
+                    <div className="mt-2 flex flex-col gap-2 bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                      <div>
+                        <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">Current Strengths:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {(rec.requiredSkills?.filter((s: string) => !rec.currentSkillGap?.includes(s)) || ['Core logic']).map((st: string) => (
+                            <span key={st} className="text-[10px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2 py-0.5 rounded font-mono">
+                              ✓ {st}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-1">
+                        <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-1">Missing Skills & Next Steps:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {(rec.currentSkillGap || ['Advanced framework patterns']).map((gap: string) => (
+                            <span key={gap} className="text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2 py-0.5 rounded font-mono">
+                              ⚡ {gap}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
 

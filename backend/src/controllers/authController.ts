@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { User } from '../models/User';
-import { generateToken } from '../utils/jwt';
+import { generateToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt';
 import { sendVerificationEmail, sendResetPasswordEmail } from '../utils/mailer';
 import { AppError } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
@@ -48,6 +48,10 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
       verificationTokenExpires,
     });
 
+    const token = generateToken({ userId: user._id.toString(), email: user.email });
+    const refreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+    user.refreshToken = refreshToken;
+
     await user.save();
 
     // Send verification email (failsafe - non-blocking for user creation)
@@ -57,12 +61,11 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
       console.error('Mailer failed during signup, continuing user creation', mailErr);
     }
 
-    const token = generateToken({ userId: user._id.toString(), email: user.email });
-
     res.status(201).json({
       status: 'success',
       message: 'Signup successful! Please check your email to verify your account.',
       token,
+      refreshToken,
       user: {
         id: user._id,
         name: user.name,
@@ -94,10 +97,15 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     const token = generateToken({ userId: user._id.toString(), email: user.email });
+    const refreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+
+    user.refreshToken = refreshToken;
+    await user.save();
 
     res.status(200).json({
       status: 'success',
       token,
+      refreshToken,
       user: {
         id: user._id,
         name: user.name,
@@ -227,6 +235,58 @@ export const getMe = async (req: AuthRequest, res: Response, next: NextFunction)
     res.status(200).json({
       status: 'success',
       user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { refreshToken: tokenInput } = req.body;
+    if (!tokenInput) {
+      throw new AppError('Refresh token is required', 400);
+    }
+
+    let payload;
+    try {
+      payload = verifyRefreshToken(tokenInput);
+    } catch (err) {
+      throw new AppError('Invalid or expired refresh token', 401);
+    }
+
+    const user = await User.findById(payload.userId);
+    if (!user || user.refreshToken !== tokenInput) {
+      throw new AppError('Refresh token is invalid or has been revoked', 401);
+    }
+
+    // Token Rotation
+    const newToken = generateToken({ userId: user._id.toString(), email: user.email });
+    const newRefreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    res.status(200).json({
+      status: 'success',
+      token: newToken,
+      refreshToken: newRefreshToken,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    if (userId) {
+      await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Logged out successfully',
     });
   } catch (error) {
     next(error);

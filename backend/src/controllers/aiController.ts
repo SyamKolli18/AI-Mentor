@@ -653,3 +653,83 @@ export const saveWeeklyGoal = async (req: AuthRequest, res: Response, next: Next
     next(error);
   }
 };
+
+export const explainAndTeach = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    const { topicTitle, moduleTitle } = req.body;
+    if (!userId) throw new AppError('Unauthorized access', 401);
+    if (!topicTitle) throw new AppError('topicTitle is required', 400);
+
+    const user = await User.findById(userId);
+    if (!user) throw new AppError('User not found', 404);
+
+    const result = await AIService.explainAndTeachTopic(user, topicTitle, moduleTitle || 'Learning Module');
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPracticeQuestions = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    const { topicTitle } = req.body;
+    if (!userId) throw new AppError('Unauthorized access', 401);
+    if (!topicTitle) throw new AppError('topicTitle is required', 400);
+
+    const user = await User.findById(userId);
+    if (!user) throw new AppError('User not found', 404);
+
+    const result = await AIService.generatePracticeQuestions(user, topicTitle);
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const evaluateAnswer = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    const { question, studentAnswer } = req.body;
+    if (!userId) throw new AppError('Unauthorized access', 401);
+    if (!question || !studentAnswer) throw new AppError('question and studentAnswer are required', 400);
+
+    const user = await User.findById(userId);
+    if (!user) throw new AppError('User not found', 404);
+
+    const result = await AIService.evaluateStudentAnswer(user, question, studentAnswer);
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAdaptiveDecision = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    const { topicTitle, quizScore, totalQuestions } = req.body;
+    if (!userId) throw new AppError('Unauthorized access', 401);
+    if (!topicTitle) throw new AppError('topicTitle is required', 400);
+
+    const user = await User.findById(userId);
+    if (!user) throw new AppError('User not found', 404);
+
+    const result = await AIService.determineAdaptiveNextAction(user, topicTitle, quizScore, totalQuestions);
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

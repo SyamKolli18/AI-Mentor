@@ -31,6 +31,9 @@ const StudyPlannerView = lazy(() => import('./features/dashboard/StudyPlannerVie
 const CodingAnalyticsView = lazy(() => import('./features/dashboard/CodingAnalyticsView').then(m => ({ default: m.CodingAnalyticsView })));
 const AIAssistantView = lazy(() => import('./features/dashboard/AIAssistantView').then(m => ({ default: m.AIAssistantView })));
 const CommunityView = lazy(() => import('./features/dashboard/CommunityView').then(m => ({ default: m.CommunityView })));
+const LearningView = lazy(() => import('./features/dashboard/LearningView').then(m => ({ default: m.LearningView })));
+const ProgressTrackerView = lazy(() => import('./features/dashboard/ProgressTrackerView').then(m => ({ default: m.ProgressTrackerView })));
+const SettingsView = lazy(() => import('./features/dashboard/SettingsView').then(m => ({ default: m.SettingsView })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -212,6 +215,30 @@ function App() {
                     element={
                       <DashboardLayout>
                         <CommunityView />
+                      </DashboardLayout>
+                    }
+                  />
+                  <Route
+                    path="/learning"
+                    element={
+                      <DashboardLayout>
+                        <LearningView />
+                      </DashboardLayout>
+                    }
+                  />
+                  <Route
+                    path="/progress"
+                    element={
+                      <DashboardLayout>
+                        <ProgressTrackerView />
+                      </DashboardLayout>
+                    }
+                  />
+                  <Route
+                    path="/settings"
+                    element={
+                      <DashboardLayout>
+                        <SettingsView />
                       </DashboardLayout>
                     }
                   />

@@ -54,7 +54,7 @@ export const LoginPage: React.FC = () => {
       setIsLoading(true);
       const res = await api.post('/auth/login', data);
       
-      setSession(res.data.token, res.data.user);
+      setSession(res.data.token, res.data.user, res.data.refreshToken);
       
       toast('Welcome back to AI Mentor!', 'success');
       

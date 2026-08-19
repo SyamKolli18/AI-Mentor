@@ -12,33 +12,33 @@ Computer Science students and aspiring software engineers frequently face fragme
 - Struggling to evaluate code quality, performance bottlenecks, and security vulnerabilities without direct mentor reviews.
 - Lacking consistent tracking for daily study goals, DSA problem practice, and employer placement readiness.
 
-## 💡 Solution
+## 💡 Solution: Focused Product Vision
 
-**AI Mentor** serves as an interactive technical career coach and productivity hub that:
-1. Conducts multi-step onboarding diagnostics to calculate a 5-dimension cognitive competency score vector (Programming, Problem Solving, Mathematics, Communication, Consistency).
-2. Generates adaptive 3-stage learning roadmaps with automatic module skips for mastered concepts and prerequisite inserts for identified skill gaps.
-3. Recommends blueprinted portfolio projects with interactive directory tree inspectors.
-4. Performs static code quality, performance, and security audits on user-submitted code snippets.
-5. Provides a timed mock interview room with feedback scorecards and calculates company placement readiness match percentages.
-6. Combines a daily study planner, habit trackers, Pomodoro focus timers, GitHub-style coding heatmaps, a markdown chat assistant, peer discussion forums, and student leaderboards.
+**AI Mentor** acts as a personalized AI mentor throughout the student's journey, focusing on answering core college student questions:
+- *What to learn* & *Which programming language to start*
+- *Which career path suits them best*
+- *What skills they are missing & what to learn next*
+- *Whether they actually understand what they studied*
+
+### Core Student Flow
+```text
+Student → Onboarding → Student Profile Analysis → Career Recommendation → Personalized Roadmap → Learning & Progress Tracking → AI Learning System → Adaptive Mentor Engine → Updated Learning Path
+```
 
 ---
 
-## ✨ Key Features
+## ✨ Core Features
 
-- **Multi-Step Onboarding Wizard**: 5-step questionnaire collecting academic details, current skills, preferred career track, daily study allocation, and hardware constraints with draft autosaving.
-- **Cognitive Profile & Competency Vector**: Interactive Recharts Radar visualization evaluating technical readiness, CS fundamentals, development experience, and timeline estimates.
-- **Adaptive Learning Roadmaps**: Dynamic 3-stage syllabus generation supporting lesson completions, custom module reordering, and 80% pass score checkpoint quiz locks.
-- **Portfolio Project Specifications**: Curated project blueprints with component hierarchy, target architecture, directory structures, and submission uploads.
-- **Code Review & Audit Studio**: Static code review scanner inspecting pasted code for security risks (`eval`, `innerHTML`), performance bottlenecks (nested $O(N^2)$ loops), typed safety, and hardcoded credentials.
-- **Mock Interview Room**: Simulated technical and behavioral interview Q&A sessions with speech-to-text input support, timer clocks, and response diagnostic scorecards.
-- **Placement Readiness Engine**: Company tier match matrices (FAANG, Tier 2, Startups, Service Companies) and DSA/CS core competency grids.
-- **Study Planner & Productivity Coach**: Kanban task board, daily habit streak toggles, interactive Pomodoro focus clock with automatic duration logging.
-- **Coding Analytics & Heatmap**: Solved DSA problem trackers by difficulty (Easy, Medium, Hard) and a 365-day GitHub-style contribution heatmap grid.
-- **AI Learning Assistant**: Markdown conversation assistant with chat session memory, bookmarking, and code block formatting.
-- **Community & Mentorship Hub**: Category discussion forums, study club memberships, project showcase reviews, and student points leaderboards.
-- **Admin Management Panel**: Platform user growth charts, resource link & category manager, feature flag toggles, and database backup simulation.
-- **System Health Diagnostics**: Live server health check endpoint (`/api/health`) logging uptime, memory allocation, and database connection state.
+1. **Onboarding**: Multi-step wizard collecting academic details, skills, career goals, study preferences, and hardware constraints with draft autosaving.
+2. **Student Profile Analysis**: Cognitive skill vector breakdown with transparent beginner explanations for each score ("What does this score mean?", "What should I do to improve it?"), strengths, weaknesses, and skill gaps.
+3. **Career Recommendation**: Deep career matching explaining match %, why it matches, current strengths, missing skills, recommended next skills, difficulty, and expected learning path timeline.
+4. **Personalized Roadmap**: Highly visual 3-stage module tree detailing topics, why it matters, prerequisites, estimated learning time, difficulty, learning outcomes, resources, practice/assessments, and completion status.
+5. **AI Learning System**: Interactive 6-step study interface for every topic: **Explain → Teach → Practice → Evaluate → Feedback → Next Action**.
+6. **Adaptive Mentor Engine**: Continuous evaluation loop analyzing quiz/assessment performance to flag weak/strong topics, recommend remediation, adjust difficulty, generate targeted exercises, and unlock modules.
+7. **Learning & Progress Tracking**: Real-time progress analytics tracking study streaks, total study hours, mastered vs. weak topics, and adaptive recommendations.
+8. **Real AI Service Integration**: Dedicated LLM service layer using Google Gemini API (`AI_PROVIDER=gemini`, `GEMINI_API_KEY`) with structured prompts, response validation, retries, timeouts, and safe fallback behavior.
+9. **Secure Authentication & Token Refresh**: JWT authentication with automatic Refresh Token Rotation via `POST /api/auth/refresh-token` and logout token revocation.
+10. **Automated Vitest Test Suite**: Vitest suite verifying core business logic: profile scoring, career matching, skill-gap detection, roadmap progression, answer evaluation, adaptive decisions, and auth utilities.
 
 ---
 

@@ -7,6 +7,7 @@ export interface IUser {
   email: string;
   isVerified: boolean;
   isOnboarded: boolean;
+  role?: 'student' | 'admin';
   onboarding?: any;
   aiProfile?: any;
   careerRecommendations?: any;
@@ -17,8 +18,8 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (token: string, user: IUser) => void;
-  signup: (token: string, user: IUser) => void;
+  login: (token: string, user: IUser, refreshToken?: string) => void;
+  signup: (token: string, user: IUser, refreshToken?: string) => void;
   logout: () => void;
   updateUser: (user: IUser) => void;
   checkSession: () => Promise<void>;
@@ -31,20 +32,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('ai_mentor_token'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const login = (newToken: string, userData: IUser) => {
+  const login = (newToken: string, userData: IUser, newRefreshToken?: string) => {
     localStorage.setItem('ai_mentor_token', newToken);
+    if (newRefreshToken) {
+      localStorage.setItem('ai_mentor_refresh_token', newRefreshToken);
+    }
     setToken(newToken);
     setUser(userData);
   };
 
-  const signup = (newToken: string, userData: IUser) => {
+  const signup = (newToken: string, userData: IUser, newRefreshToken?: string) => {
     localStorage.setItem('ai_mentor_token', newToken);
+    if (newRefreshToken) {
+      localStorage.setItem('ai_mentor_refresh_token', newRefreshToken);
+    }
     setToken(newToken);
     setUser(userData);
   };
 
   const logout = () => {
+    api.post('/auth/logout').catch(() => {});
     localStorage.removeItem('ai_mentor_token');
+    localStorage.removeItem('ai_mentor_refresh_token');
     setToken(null);
     setUser(null);
   };

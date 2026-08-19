@@ -11,6 +11,10 @@ import {
   submitQuiz,
   getDashboardStats,
   saveWeeklyGoal,
+  explainAndTeach,
+  getPracticeQuestions,
+  evaluateAnswer,
+  getAdaptiveDecision,
 } from '../controllers/aiController';
 import { authenticate } from '../middleware/auth';
 
@@ -32,5 +36,11 @@ router.post('/roadmap/complete-project', completeProject as any);
 router.post('/roadmap/submit-quiz', submitQuiz as any);
 router.get('/dashboard-stats', getDashboardStats as any);
 router.post('/weekly-goal', saveWeeklyGoal as any);
+
+// Phase E & G AI Learning System & Adaptive Engine routes
+router.post('/learn/explain-teach', explainAndTeach as any);
+router.post('/learn/practice', getPracticeQuestions as any);
+router.post('/learn/evaluate', evaluateAnswer as any);
+router.post('/learn/adaptive-decision', getAdaptiveDecision as any);
 
 export default router;

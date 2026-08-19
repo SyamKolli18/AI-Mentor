@@ -58,7 +58,7 @@ export const SignupPage: React.FC = () => {
       const res = await api.post('/auth/signup', data);
       
       // Store credentials
-      registerSession(res.data.token, res.data.user);
+      registerSession(res.data.token, res.data.user, res.data.refreshToken);
       
       toast(res.data.message || 'Verification email has been sent! Check your inbox.', 'success');
       navigate('/onboarding');

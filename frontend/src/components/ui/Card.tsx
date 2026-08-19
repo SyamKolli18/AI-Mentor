@@ -19,9 +19,9 @@ export const Card: React.FC<CardProps> = ({
   const CardComponent = animated ? motion.div : 'div';
   
   const cardStyles = cn(
-    "relative overflow-hidden rounded-xl border border-white/5 bg-card/45 p-6 text-card-foreground backdrop-blur-md",
-    glass && "shadow-glass shadow-black/25 shadow-glass-inset",
-    hoverEffect && "transition-all duration-300 hover:border-accent/30 hover:bg-card/75 hover:shadow-premium hover:-translate-y-1",
+    "relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/90 p-6 text-slate-50 backdrop-blur-md",
+    glass && "shadow-glass shadow-black/40 shadow-glass-inset",
+    hoverEffect && "transition-all duration-300 hover:border-accent/50 hover:bg-slate-900 hover:shadow-premium hover:-translate-y-1",
     className
   );
 
@@ -48,7 +48,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ 
 );
 
 export const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ className, ...props }) => (
-  <p className={cn("text-sm text-slate-400", className)} {...props} />
+  <p className={cn("text-sm text-slate-300", className)} {...props} />
 );
 
 export const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (

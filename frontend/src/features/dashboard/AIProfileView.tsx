@@ -163,28 +163,79 @@ export const AIProfileView: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Right Column: Key Scores Cards */}
+          {/* Right Column: Key Scores Cards with Explanations */}
           <Card className="bg-card/10 flex flex-col gap-4">
             <CardHeader className="pb-0">
-              <CardTitle className="text-lg font-bold flex items-center gap-2">
-                <Terminal className="h-5 w-5 text-accent" /> Competency Metrics
+              <CardTitle className="text-lg font-bold flex items-center gap-2 text-white">
+                <Terminal className="h-5 w-5 text-accent" /> Skill Breakdown & Meaning
               </CardTitle>
-              <CardDescription className="text-xs">Individual vectors quantified out of 100.</CardDescription>
+              <CardDescription className="text-xs text-slate-300">
+                Understand what each score represents and how to level up.
+              </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3">
+            <CardContent className="flex flex-col gap-4 overflow-y-auto max-h-[500px] pr-1">
               {scoreLabels.map((item) => {
-                const score = profile.scores[item.key] !== undefined ? profile.scores[item.key] : profile.scores[item.altKey];
+                const score = profile.scores[item.key] !== undefined ? profile.scores[item.key] : profile.scores[item.altKey] || 50;
+                
+                const explanations: Record<string, { meaning: string; improve: string }> = {
+                  programmingScore: {
+                    meaning: score > 70 ? 'Strong logic & syntax fluency in your chosen languages.' : 'Basic syntax awareness. Needs more hands-on coding practice.',
+                    improve: 'Build 2 small standalone scripts this week and focus on object/array methods.'
+                  },
+                  problemSolvingScore: {
+                    meaning: score > 70 ? 'Good algorithmic reasoning for arrays, loops, and data structures.' : 'Struggles with breaking complex problems into sub-steps.',
+                    improve: 'Solve 1 easy problem on LeetCode/HackerRank daily and draw logic flowcharts.'
+                  },
+                  communicationScore: {
+                    meaning: score > 70 ? 'High confidence in technical explanations and group tasks.' : 'Developing verbal articulation for technical topics.',
+                    improve: 'Practice explaining code out loud to a peer or recording 1-minute logic summaries.'
+                  },
+                  mathematicsReadiness: {
+                    meaning: score > 70 ? 'Solid grasp of discrete math, logic operations, and functions.' : 'Needs refresher on foundational logic gate math.',
+                    improve: 'Review basic set theory, functions, and boolean algebra principles.'
+                  },
+                  csFundamentals: {
+                    meaning: score > 70 ? 'Good understanding of OS, networking, and DBMS core topics.' : 'Core CS concepts are preliminary; needs theory reinforcement.',
+                    improve: 'Read short summary sheets on Operating System processes and SQL database queries.'
+                  },
+                  devReadiness: {
+                    meaning: score > 70 ? 'Practical experience building real applications and using Git.' : 'Limited project portfolio. Needs real repository experience.',
+                    improve: 'Build a small full-stack or frontend project and push standard Git commits to GitHub.'
+                  },
+                  learningConsistency: {
+                    meaning: score > 70 ? 'Excellent daily study discipline and task habit tracking.' : 'Inconsistent daily study schedule.',
+                    improve: 'Set a dedicated 1.5-hour study block at the same time every day.'
+                  },
+                  aiConfidenceScore: {
+                    meaning: score > 70 ? 'High AI match confidence aligned with career goals.' : 'Goal alignment needs further focus.',
+                    improve: 'Complete your first roadmap module to boost overall confidence.'
+                  }
+                };
+
+                const exp = explanations[item.key] || {
+                  meaning: `Quantifies your current baseline readiness at ${score}%.`,
+                  improve: 'Follow recommended roadmap modules systematically.'
+                };
+
                 return (
-                  <div key={item.key} className="flex flex-col gap-1">
-                    <div className="flex justify-between items-center text-xs font-semibold text-slate-300">
+                  <div key={item.key} className="flex flex-col gap-2 p-3 bg-slate-900/80 border border-slate-800 rounded-xl">
+                    <div className="flex justify-between items-center text-xs font-bold text-white">
                       <span>{item.label}</span>
-                      <span className={item.color}>{score}%</span>
+                      <span className={`${item.color} font-extrabold`}>{score}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
                       <div 
                         className={`h-full rounded-full transition-all duration-500 bg-current ${item.color}`}
                         style={{ width: `${score}%` }}
                       />
+                    </div>
+                    <div className="flex flex-col gap-1 text-[11px] mt-1 pt-2 border-t border-slate-800">
+                      <p className="text-slate-300">
+                        <strong className="text-indigo-400">Meaning:</strong> {exp.meaning}
+                      </p>
+                      <p className="text-slate-300">
+                        <strong className="text-emerald-400">How to Improve:</strong> {exp.improve}
+                      </p>
                     </div>
                   </div>
                 );
