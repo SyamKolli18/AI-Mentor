@@ -106,8 +106,18 @@ api.interceptors.response.use(
       }
     }
 
+    let errorMessage = error.response?.data?.message || 'Something went wrong';
+    if (
+      (errorMessage === 'Validation error' || !error.response?.data?.message) &&
+      Array.isArray(error.response?.data?.errors) &&
+      error.response.data.errors.length > 0 &&
+      error.response.data.errors[0]?.message
+    ) {
+      errorMessage = error.response.data.errors[0].message;
+    }
+
     const customError = {
-      message: error.response?.data?.message || 'Something went wrong',
+      message: errorMessage,
       errors: error.response?.data?.errors,
       status: error.response?.status,
     };

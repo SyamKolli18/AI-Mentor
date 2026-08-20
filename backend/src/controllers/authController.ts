@@ -76,7 +76,8 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return next(new AppError('Validation error', 400, error.errors));
+      const firstMessage = error.errors[0]?.message || 'Validation error';
+      return next(new AppError(firstMessage, 400, error.errors));
     }
     next(error);
   }
@@ -117,7 +118,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return next(new AppError('Validation error', 400, error.errors));
+      const firstMessage = error.errors[0]?.message || 'Validation error';
+      return next(new AppError(firstMessage, 400, error.errors));
     }
     next(error);
   }
