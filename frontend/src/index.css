@@ -4,12 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-orange-500/30 selection:text-white;
-    background-color: #0C0A09;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-rose-500/30 selection:text-white;
+    background-color: #050505;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.04) 0px, transparent 40%),
-      radial-gradient(at 100% 0%, rgba(251, 191, 36, 0.03) 0px, transparent 40%),
-      radial-gradient(at 50% 100%, rgba(249, 115, 22, 0.02) 0px, transparent 40%);
+      radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.05) 0px, transparent 40%),
+      radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.03) 0px, transparent 40%),
+      radial-gradient(at 50% 100%, rgba(159, 18, 57, 0.04) 0px, transparent 40%);
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
@@ -24,24 +24,24 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0C0A09;
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3A2720;
+  background: #27272A;
   border-radius: 9999px;
-  border: 2px solid #0C0A09;
+  border: 2px solid #050505;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F97316;
+  background: #E11D48;
 }
 
-/* Obsidian Surface Custom Classes */
+/* Carbon Glass Surface Custom Classes */
 .glass-panel {
-  background: #18120F;
-  border: 1px solid #3A2720;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+  background: #111111;
+  border: 1px solid #27272A;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
 }
 
 .glass-panel-hover {
@@ -49,31 +49,31 @@
 }
 
 .glass-panel-hover:hover {
-  background: #211712;
-  border-color: rgba(249, 115, 22, 0.4);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+  background: #171717;
+  border-color: rgba(225, 29, 72, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(225, 29, 72, 0.15);
   transform: translateY(-2px);
 }
 
 /* Animated Gradient Text */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-stone-50 via-stone-200 to-stone-400;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400;
 }
 
-.text-gradient-orange {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-amber-300;
+.text-gradient-crimson {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600;
 }
 
-.text-gradient-purple {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-amber-300;
+.text-gradient-red {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-rose-500 to-pink-500;
 }
 
 /* Background grid styling */
 .bg-grid {
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
 /* Custom glows */
@@ -82,7 +82,7 @@
   width: 400px;
   height: 400px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, rgba(251, 191, 36, 0.02) 50%, transparent 100%);
+  background: radial-gradient(circle, rgba(225, 29, 72, 0.12) 0%, rgba(159, 18, 57, 0.03) 50%, transparent 100%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 0;
@@ -104,8 +104,8 @@
   background-image: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.02) 20%,
-    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0.03) 20%,
+    rgba(255, 255, 255, 0.08) 60%,
     rgba(255, 255, 255, 0) 100%
   );
   animation: shimmer 2s infinite;

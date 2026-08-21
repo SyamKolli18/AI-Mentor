@@ -16,11 +16,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = "inline-flex items-center justify-center rounded-lg font-semibold tracking-wide transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer active:scale-[0.98]";
     
     const variants = {
-      primary: "bg-orange-500 hover:bg-orange-400 active:bg-orange-600 text-white font-bold shadow-glow border border-orange-400/30",
-      secondary: "bg-[#211712] border border-[#3A2720] text-stone-200 hover:bg-[#2A1D17] hover:text-white",
-      outline: "border border-[#3A2720] bg-transparent text-stone-300 hover:bg-[#211712] hover:text-white",
-      ghost: "hover:bg-[#211712] text-stone-400 hover:text-white",
-      glass: "bg-[#18120F] border border-[#3A2720] text-stone-100 hover:bg-[#211712] hover:border-orange-500/40",
+      primary: "bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-bold shadow-glow border border-rose-500/30",
+      secondary: "bg-[#171717] border border-[#27272A] text-slate-200 hover:bg-[#222225] hover:text-white",
+      outline: "border border-[#27272A] bg-transparent text-slate-300 hover:bg-[#171717] hover:border-rose-500/40 hover:text-white",
+      ghost: "hover:bg-[#171717] text-slate-400 hover:text-white",
+      glass: "bg-[#111111] border border-[#27272A] text-slate-100 hover:bg-[#171717] hover:border-rose-500/40",
     };
 
     const sizes = {

@@ -4,6 +4,15 @@ import { AppError } from '../middleware/errorHandler';
 import { AuthRequest } from '../middleware/auth';
 import { z } from 'zod';
 
+import { validateUrlString } from '../utils/urlValidation';
+
+// Helper for validating optional URLs safely in Zod
+const optionalUrl = (type: 'github' | 'linkedin' | 'resume' | 'project' | 'any') =>
+  z.string().optional().or(z.literal('')).refine(
+    (val) => !val || validateUrlString(val, type).isValid,
+    (val) => ({ message: validateUrlString(val, type).error || 'Invalid URL' })
+  );
+
 // Full validation schema for final submit
 const finalSubmitSchema = z.object({
   personal: z.object({
@@ -14,12 +23,12 @@ const finalSubmitSchema = z.object({
   academic: z.object({
     degree: z.string().min(2, 'Degree is required'),
     branch: z.string().min(2, 'Branch/Stream is required'),
-    graduationYear: z.number().int().min(2000).max(2035),
-    cgpa: z.number().min(0).max(10),
+    graduationYear: z.number().int().min(2000, 'Graduation year must be 2000 or later').max(2035, 'Graduation year must be 2035 or earlier'),
+    cgpa: z.number().min(0, 'CGPA must be at least 0').max(10, 'CGPA cannot exceed 10'),
     college: z.string().min(2, 'College name is required'),
   }),
   skills: z.object({
-    languages: z.array(z.string()).min(1, 'Select at least one programming language'),
+    languages: z.array(z.string()).min(1, 'Select at least one programming language or technical skill'),
     subjects: z.array(z.string()).min(1, 'Select at least one core academic subject'),
     otherSkills: z.array(z.string()).default([]),
   }),
@@ -38,20 +47,20 @@ const finalSubmitSchema = z.object({
   }),
   experience: z.object({
     projects: z.array(z.object({
-      title: z.string().min(2),
-      description: z.string().min(5),
+      title: z.string().min(2, 'Project title is required'),
+      description: z.string().min(5, 'Project description is required'),
       technologies: z.array(z.string()),
-      link: z.string().optional(),
+      link: optionalUrl('project'),
     })).default([]),
     certifications: z.array(z.object({
-      name: z.string().min(2),
-      issuingOrganization: z.string().min(2),
+      name: z.string().min(2, 'Certificate name is required'),
+      issuingOrganization: z.string().min(2, 'Issuing organization is required'),
       issueDate: z.string().transform(val => new Date(val)).optional(),
-      credentialUrl: z.string().optional(),
+      credentialUrl: optionalUrl('any'),
     })).default([]),
-    github: z.string().url().optional().or(z.literal('')),
-    linkedin: z.string().url().optional().or(z.literal('')),
-    resumeUrl: z.string().url().optional().or(z.literal('')),
+    github: optionalUrl('github'),
+    linkedin: optionalUrl('linkedin'),
+    resumeUrl: optionalUrl('resume'),
   }),
 });
 
@@ -162,7 +171,8 @@ export const submitOnboarding = async (req: AuthRequest, res: Response, next: Ne
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return next(new AppError('Onboarding validation failed. Please check all fields.', 400, error.errors));
+      const firstMsg = error.errors[0]?.message || 'Validation failed. Check inputs.';
+      return next(new AppError(firstMsg, 400, error.errors));
     }
     next(error);
   }

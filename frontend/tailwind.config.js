@@ -8,43 +8,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0C0A09",
-        foreground: "#FAFAF9",
-        obsidian: {
-          bg: "#0C0A09",
-          surface: "#18120F",
-          elevated: "#211712",
-          border: "#3A2720",
+        background: "#050505",
+        "background-secondary": "#0B0B0B",
+        foreground: "#F8FAFC",
+        surface: {
+          DEFAULT: "#111111",
+          elevated: "#171717",
+          border: "#27272A",
         },
         card: {
-          DEFAULT: "#18120F",
-          foreground: "#FAFAF9",
+          DEFAULT: "#111111",
+          foreground: "#F8FAFC",
         },
         popover: {
-          DEFAULT: "#211712",
-          foreground: "#FAFAF9",
+          DEFAULT: "#171717",
+          foreground: "#F8FAFC",
         },
         primary: {
-          DEFAULT: "#F97316",
-          bright: "#FB923C",
-          active: "#EA580C",
+          DEFAULT: "#E11D48",
+          bright: "#F43F5E",
+          deep: "#9F1239",
           foreground: "#FFFFFF",
         },
-        secondary: {
-          DEFAULT: "#211712",
-          foreground: "#D6D3D1",
+        crimson: {
+          DEFAULT: "#E11D48",
+          bright: "#F43F5E",
+          deep: "#9F1239",
+          glow: "rgba(225, 29, 72, 0.25)",
         },
-        amber: {
-          DEFAULT: "#FBBF24",
-          bright: "#FDE047",
+        secondary: {
+          DEFAULT: "#171717",
+          foreground: "#CBD5E1",
         },
         muted: {
-          DEFAULT: "#211712",
-          foreground: "#A8A29E",
+          DEFAULT: "#171717",
+          foreground: "#94A3B8",
         },
         accent: {
-          DEFAULT: "#F97316",
-          amber: "#FBBF24",
+          DEFAULT: "#E11D48",
           foreground: "#FFFFFF",
         },
         success: {
@@ -52,16 +53,20 @@ export default {
           foreground: "#FFFFFF",
         },
         warning: {
-          DEFAULT: "#FBBF24",
+          DEFAULT: "#F59E0B",
           foreground: "#FFFFFF",
         },
-        destructive: {
+        error: {
           DEFAULT: "#EF4444",
           foreground: "#FFFFFF",
         },
-        border: "#3A2720",
-        input: "#18120F",
-        ring: "#F97316",
+        info: {
+          DEFAULT: "#60A5FA",
+          foreground: "#FFFFFF",
+        },
+        border: "#27272A",
+        input: "#111111",
+        ring: "#E11D48",
       },
       borderRadius: {
         lg: "12px",
@@ -73,15 +78,15 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "orange-amber": "linear-gradient(135deg, #F97316 0%, #FBBF24 100%)",
-        "obsidian-gradient": "linear-gradient(180deg, #18120F 0%, #0C0A09 100%)",
-        "glow-orange": "radial-gradient(circle at center, rgba(249, 115, 22, 0.12) 0%, transparent 60%)",
+        "crimson-gradient": "linear-gradient(135deg, #E11D48 0%, #9F1239 100%)",
+        "carbon-gradient": "linear-gradient(180deg, #111111 0%, #050505 100%)",
+        "glow-crimson": "radial-gradient(circle at center, rgba(225, 29, 72, 0.15) 0%, transparent 65%)",
       },
       boxShadow: {
-        "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.6)",
-        "glass-inset": "inset 0 1px 1px 0 rgba(255, 255, 255, 0.03)",
-        "glow": "0 0 20px 2px rgba(249, 115, 22, 0.2)",
-        "amber-glow": "0 0 20px 2px rgba(251, 191, 36, 0.2)",
+        "glass": "0 8px 32px 0 rgba(0, 0, 0, 0.8)",
+        "glass-inset": "inset 0 1px 1px 0 rgba(255, 255, 255, 0.05)",
+        "glow": "0 0 24px 2px rgba(225, 29, 72, 0.3)",
+        "crimson-glow": "0 0 30px 4px rgba(225, 29, 72, 0.35)",
       },
     },
   },

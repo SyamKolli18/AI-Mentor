@@ -19,9 +19,9 @@ export const Card: React.FC<CardProps> = ({
   const CardComponent = animated ? motion.div : 'div';
   
   const cardStyles = cn(
-    "relative overflow-hidden rounded-xl border border-[#3A2720] bg-[#18120F] p-6 text-stone-100 backdrop-blur-md",
-    glass && "shadow-glass shadow-black/60",
-    hoverEffect && "transition-all duration-300 hover:border-orange-500/40 hover:bg-[#211712] hover:shadow-glow hover:-translate-y-1",
+    "relative overflow-hidden rounded-xl border border-[#27272A] bg-[#111111] p-6 text-slate-100 backdrop-blur-md",
+    glass && "shadow-glass shadow-black/80",
+    hoverEffect && "transition-all duration-300 hover:border-rose-500/40 hover:bg-[#171717] hover:shadow-glow hover:-translate-y-1",
     className
   );
 
@@ -44,11 +44,11 @@ export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ cla
 );
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ className, ...props }) => (
-  <h3 className={cn("text-xl font-bold tracking-tight text-stone-50", className)} {...props} />
+  <h3 className={cn("text-xl font-bold tracking-tight text-white", className)} {...props} />
 );
 
 export const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({ className, ...props }) => (
-  <p className={cn("text-sm text-stone-300", className)} {...props} />
+  <p className={cn("text-sm text-slate-400", className)} {...props} />
 );
 
 export const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (

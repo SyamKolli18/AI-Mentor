@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
-// Zod validation schema
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Please enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -64,7 +63,7 @@ export const LoginPage: React.FC = () => {
         navigate('/onboarding');
       }
     } catch (err: any) {
-      toast(err.message || 'Invalid credentials. Please try again.', 'error');
+      toast(err.message || 'Invalid email or password.', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -73,20 +72,20 @@ export const LoginPage: React.FC = () => {
   return (
     <>
       <div className="flex flex-col gap-2 text-center md:text-left">
-        <h1 className="text-2xl font-extrabold tracking-tight text-stone-50 md:text-3xl">
-          Welcome Back
+        <h1 className="text-2xl font-extrabold tracking-tight text-white md:text-3xl">
+          Sign In to AI Mentor
         </h1>
-        <p className="text-sm text-stone-300">
-          Sign in to resume tracking your career goals.
+        <p className="text-xs text-slate-400">
+          Enter your registered email and password to resume your career roadmap.
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <Input
-          label="Email Address"
-          placeholder="you@college.edu"
+          label="Student Email"
+          placeholder="student@college.edu"
           type="email"
-          leftIcon={<Mail className="h-4 w-4 text-stone-400" />}
+          leftIcon={<Mail className="h-4 w-4 text-slate-400" />}
           error={errors.email?.message}
           disabled={isLoading}
           {...register('email')}
@@ -94,12 +93,12 @@ export const LoginPage: React.FC = () => {
 
         <div>
           <div className="flex justify-between items-center mb-1">
-            <label className="text-xs font-semibold text-stone-200 tracking-wide uppercase select-none">
+            <label className="text-[10px] font-bold text-slate-300 tracking-wider uppercase select-none">
               Password
             </label>
             <Link
               to="/forgot-password"
-              className="text-xs text-orange-400 hover:text-orange-300 font-semibold transition-colors"
+              className="text-xs text-rose-400 hover:text-rose-300 font-semibold transition-colors"
             >
               Forgot Password?
             </Link>
@@ -107,22 +106,28 @@ export const LoginPage: React.FC = () => {
           <Input
             placeholder="••••••••"
             type="password"
-            leftIcon={<Lock className="h-4 w-4 text-stone-400" />}
+            leftIcon={<Lock className="h-4 w-4 text-slate-400" />}
             error={errors.password?.message}
             disabled={isLoading}
             {...register('password')}
           />
         </div>
 
-        <Button variant="primary" type="submit" isLoading={isLoading} className="w-full h-11 mt-2 bg-orange-500 hover:bg-orange-400 text-white font-bold shadow-glow">
+        <Button 
+          variant="primary" 
+          type="submit" 
+          isLoading={isLoading} 
+          className="w-full h-11 mt-2 bg-rose-600 hover:bg-rose-500 text-white font-bold shadow-crimson-glow"
+          rightIcon={<ArrowRight className="h-4 w-4" />}
+        >
           Sign In
         </Button>
       </form>
 
-      <div className="text-center text-xs text-stone-300">
-        Don't have an account?{' '}
-        <Link to="/signup" className="text-orange-400 hover:text-orange-300 font-semibold transition-colors">
-          Sign Up
+      <div className="text-center text-xs text-slate-400">
+        Don't have an AI Mentor account?{' '}
+        <Link to="/signup" className="text-rose-400 hover:text-rose-300 font-bold transition-colors">
+          Create Account
         </Link>
       </div>
     </>
